@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="IGCSE ICT Chapter 7 The Systems Life Cycle 50 Interactive Flashcards">
+    <title>IGCSE ICT Chapter 7 | Flashcards</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #3b82f6 100%);
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --back-card-bg: #eff6ff;
+            --back-card-text: #1e40af;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            padding: 2rem 1rem 1rem 1rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        header p {
+            margin: 0.5rem 0 0 0;
+            font-size: 1rem;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+
+        main {
+            width: 100%;
+            max-width: 650px;
+            padding: 1rem;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stats-bar {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            color: white;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .category-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            backdrop-filter: blur(5px);
+        }
+
+        .flashcard-container {
+            width: 100%;
+            height: 320px;
+            perspective: 1000px;
+            cursor: pointer;
+            margin-bottom: 1.5rem;
+        }
+
+        .flashcard {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border-radius: 1.5rem;
+        }
+
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2.5rem;
+            box-sizing: border-box;
+            background: var(--card-bg);
+            border-radius: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            text-align: center;
+        }
+
+        .card-back {
+            background: var(--back-card-bg);
+            color: var(--back-card-text);
+            transform: rotateY(180deg);
+            border: 1px solid #bfdbfe;
+        }
+
+        .card-face h3 {
+            margin: 0 0 1rem 0;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .card-back h3 {
+            color: #1d4ed8;
+        }
+
+        .card-face p {
+            font-size: 1.2rem;
+            margin: 0;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        .hint {
+            font-size: 0.8rem;
+            margin-top: 1.5rem;
+            color: var(--text-muted);
+            opacity: 0.8;
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            width: 100%;
+            justify-content: center;
+        }
+
+        button {
+            background-color: white;
+            color: var(--primary);
+            border: none;
+            padding: 0.8rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        button:hover:not(:disabled) {
+            background-color: #f8fafc;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        button:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            background-color: rgba(255, 255, 255, 0.4);
+            color: rgba(255, 255, 255, 0.8);
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            color: white;
+            font-size: 0.85rem;
+            opacity: 0.9;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>IGCSE ICT Chapter 7</h1>
+        <p>The Systems Life Cycle (50 Interactive Flashcards)</p>
+    </header>
+
+    <main>
+        <div class="stats-bar">
+            <span id="card-counter">Card 1 / 50</span>
+            <span class="category-badge" id="category-indicator">7.1 Analysis</span>
+        </div>
+
+        <div class="flashcard-container" onclick="flipCard()">
+            <div class="flashcard" id="flashcard">
+                <div class="card-face card-front">
+                    <h3>Question / Term</h3>
+                    <p id="front-text">Loading...</p>
+                    <span class="hint">✨ Click card to reveal answer</span>
+                </div>
+                <div class="card-face card-back">
+                    <h3>Answer</h3>
+                    <p id="back-text">Loading...</p>
+                    <span class="hint">✨ Click to flip back</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button id="prev-btn" onclick="prevCard()">← Previous</button>
+            <button id="next-btn" onclick="nextCard()">Next →</button>
+        </div>
+    </main>
+
+    <footer>
+        <p>Designed with 💖 to support IGCSE ICT students</p>
+    </footer>
+
+    <script>
+        const flashcards = [
+            // 7.1 Analysis (1-9)
+            { category: "7.1 Analysis", front: "What is the Systems Life Cycle?", back: "A structured, step-by-step process used to plan, create, test, and deploy a new information system." },
+            { category: "7.1 Analysis", front: "What is the role of a Systems Analyst?", back: "To investigate how the current system works, identify problems, and design a better automated computer system." },
+            { category: "7.1 Analysis", front: "Name the four methods used to research/collect data about an existing system.", back: "1. Observation\n2. Questionnaires\n3. Interviews\n4. Examining existing documents/paperwork" },
+            { category: "7.1 Analysis", front: "What is Observation as a research method?", back: "Watching users interact with the current system to see how tasks are actually performed." },
+            { category: "7.1 Analysis", front: "What are Questionnaires used for in the analysis stage?", back: "Gathering data and opinions from a large number of people quickly, often using closed and open questions." },
+            { category: "7.1 Analysis", front: "What are Interviews used for during analysis?", back: "Allowing the analyst to ask detailed, follow-up questions face-to-face with key stakeholders or staff." },
+            { category: "7.1 Analysis", front: "Why is looking at existing paperwork important?", back: "To understand current data inputs, file structures, reports, and identify volumes of data handled." },
+            { category: "7.1 Analysis", front: "What are the six key aspects that must be identified when analyzing a current system?", back: "1. Inputs\n2. Outputs\n3. Processing\n4. Problems\n5. User requirements\n6. Information requirements" },
+            { category: "7.1 Analysis", front: "What is a Data Flow Diagram (DFD)?", back: "A diagram that shows how data flows through a system, including inputs, processes, data stores, and outputs." },
+
+            // 7.2 Design (10-22)
+            { category: "7.2 Design", front: "What is the main purpose of the Design stage?", back: "To create detailed blueprints and specifications for how the new system will look and operate." },
+            { category: "7.2 Design", front: "What should be designed regarding user inputs?", back: "Input forms (both paper-based and screen-based data entry forms) ensuring logical layouts and user-friendliness." },
+            { category: "7.2 Design", front: "What should be designed regarding system outputs?", back: "Screen displays and printed reports to ensure information is presented clearly to users." },
+            { category: "7.2 Design", front: "What is a Systems Flowchart?", back: "A diagram showing the sequence of steps, hardware components, and data paths in a complete system." },
+            { category: "7.2 Design", front: "What is Data Validation?", back: "An automated computer check to ensure data entered is sensible, reasonable, and matches specific criteria before processing." },
+            { category: "7.2 Design", front: "What is a Range Check (Validation)?", back: "Checks that data falls within an acceptable upper and lower limit (e.g., month between 1 and 12)." },
+            { category: "7.2 Design", front: "What is a Presence Check (Validation)?", back: "Checks that data has actually been entered and the field has not been left blank." },
+            { category: "7.2 Design", front: "What is a Length Check (Validation)?", back: "Checks that data contains an exact number of characters or stays within a maximum/minimum character length." },
+            { category: "7.2 Design", front: "What is a Character/Type Check (Validation)?", back: "Checks that data contains only allowed character types (e.g., only numbers for a telephone field)." },
+            { category: "7.2 Design", front: "What is a Format/Picture Check (Validation)?", back: "Checks that data matches a specific layout pattern or template (e.g., Postcode format like AB12 3CD)." },
+            { category: "7.2 Design", front: "What is Data Verification?", back: "A way to check that data has been copied accurately from an original source without errors (e.g., visual check, double entry)." },
+            { category: "7.2 Design", front: "What is Double Entry verification?", back: "Entering data twice by two different people (or operators); the computer compares both entries to ensure they match." },
+            { category: "7.2 Design", front: "What is a Data Dictionary?", back: "A detailed definition of file structures, including field names, data types, field lengths, and validation rules." },
+
+            // 7.3 Development and testing (23-31)
+            { category: "7.3 Development & Testing", front: "What happens during the Development and Testing stage?", back: "The system is built, programmed, and rigorously tested using a test plan to ensure it works correctly without errors." },
+            { category: "7.3 Development & Testing", front: "What is a Test Plan?", back: "A structured document outlining what items will be tested, test data to be used, and expected outcomes." },
+            { category: "7.3 Development & Testing", front: "What is Normal Test Data?", back: "Data that is well within acceptable limits to check that the system processes correct inputs properly." },
+            { category: "7.3 Development & Testing", front: "What is Abnormal Test Data?", back: "Invalid data outside acceptable limits or of the wrong data type, used to check that validation routines reject errors." },
+            { category: "7.3 Development & Testing", front: "What is Extreme Test Data?", back: "Data placed right at the absolute boundaries of acceptable limits (e.g., lower and upper boundary values)." },
+            { category: "7.3 Development & Testing", front: "What is Live Data?", back: "Real data taken from the old system that has known outcomes, used to test if the new system yields correct results." },
+            { category: "7.3 Development & Testing", front: "Why is testing performed before implementation?", back: "To identify bugs, ensure software reliability, and confirm that user requirements are fully met." },
+            { category: "7.3 Development & Testing", front: "What is modular testing?", back: "Breaking down software into smaller parts (modules) and testing each individual module separately before combining them." },
+            { category: "7.3 Development & Testing", front: "What is integration testing?", back: "Testing how different modules work together once they are combined into the full system." },
+
+            // 7.4 Implementation (32-41)
+            { category: "7.4 Implementation", front: "What is System Implementation?", back: "The process of putting the newly tested computer system into operational use in the workplace." },
+            { category: "7.4 Implementation", front: "What are the two main tasks during implementation?", back: "1. Transferring data from old to new systems (data conversion)\n2. Performing the system changeover." },
+            { category: "7.4 Implementation", front: "What is Direct Changeover?", back: "The old system is stopped completely, and the new system is introduced immediately overnight." },
+            { category: "7.4 Implementation", front: "What is an advantage of Direct Changeover?", back: "It is fast, cost-effective, and avoids running two parallel systems simultaneously." },
+            { category: "7.4 Implementation", front: "What is a disadvantage of Direct Changeover?", back: "High risk; if the new system fails, there is no backup system to fall back on immediately." },
+            { category: "7.4 Implementation", front: "What is Parallel Running?", back: "Running both the old and new systems side-by-side for a period of time until staff are confident in the new system." },
+            { category: "7.4 Implementation", front: "What is an advantage of Parallel Running?", back: "Safe; if the new system crashes, the old system is still active as a backup, and outputs can be compared." },
+            { category: "7.4 Implementation", front: "What is Pilot Running?", back: "Implementing the new system in only one branch or department of an organization first before rolling it out everywhere." },
+            { category: "7.4 Implementation", front: "What is Phased Implementation?", back: "Introducing the new system gradually in stages (e.g., module by module) until the entire old system is replaced." },
+            { category: "7.4 Implementation", front: "Why is staff training necessary during implementation?", back: "To ensure employees know how to operate the new hardware and software effectively and comfortably." },
+
+            // 7.5 Documentation (42-45)
+            { category: "7.5 Documentation", front: "What are the two main types of documentation produced for a new system?", back: "1. User documentation\n2. Technical documentation" },
+            { category: "7.5 Documentation", front: "What is the purpose of User Documentation?", back: "To help everyday users operate the system (e.g., installation guides, user manuals, troubleshooting FAQs, error handling)." },
+            { category: "7.5 Documentation", front: "What is the purpose of Technical Documentation?", back: "To help IT professionals and programmers maintain, update, and repair the system (e.g., program code, system flowcharts, data dictionaries, hardware requirements)." },
+            { category: "7.5 Documentation", front: "Why is documentation crucial for a new ICT system?", back: "It ensures smooth system maintenance, helps new users learn the system quickly, and provides reference details if errors occur." },
+
+            // 7.6 Evaluation (46-50)
+            { category: "7.6 Evaluation", front: "What is the final stage of the Systems Life Cycle?", back: "Evaluation." },
+            { category: "7.6 Evaluation", front: "What is the purpose of Evaluation?", back: "To assess how well the new system performs compared to the original objectives and user requirements." },
+            { category: "7.6 Evaluation", front: "How is a system evaluated?", back: "By comparing performance against the original requirements specification, gathering feedback via questionnaires from users, and checking if time/costs were met." },
+            { category: "7.6 Evaluation", front: "Why is identifying the good and bad points of the final system important during evaluation?", back: "To learn lessons for future projects and determine if any immediate modifications or tweaks are needed." },
+            { category: "7.6 Evaluation", front: "What happens if evaluation shows the system fails to meet requirements?", back: "Portions of the systems life cycle (such as design or analysis) may need to be revisited to rework and rectify issues." }
+        ];
+
+        let currentIndex = 0;
+        let isFlipped = false;
+
+        const flashcardElement = document.getElementById('flashcard');
+        const frontText = document.getElementById('front-text');
+        const backText = document.getElementById('back-text');
+        const cardCounter = document.getElementById('card-counter');
+        const categoryIndicator = document.getElementById('category-indicator');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+
+        function updateCard() {
+            const currentCard = flashcards[currentIndex];
+            frontText.innerText = currentCard.front;
+            backText.innerText = currentCard.back;
+            cardCounter.innerText = `Card ${currentIndex + 1} / ${flashcards.length}`;
+            categoryIndicator.innerText = currentCard.category;
+
+            isFlipped = false;
+            flashcardElement.classList.remove('flipped');
+
+            prevBtn.disabled = currentIndex === 0;
+            nextBtn.disabled = currentIndex === flashcards.length - 1;
+        }
+
+        function flipCard() {
+            isFlipped = !isFlipped;
+            flashcardElement.classList.toggle('flipped', isFlipped);
+        }
+
+        function nextCard() {
+            if (currentIndex < flashcards.length - 1) {
+                currentIndex++;
+                updateCard();
+            }
+        }
+
+        function prevCard() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateCard();
+            }
+        }
+
+        updateCard();
+    </script>
+</body>
+</html>
